@@ -1,9 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Simulate} from "react-dom/test-utils";
-import input = Simulate.input;
 import {Property} from "csstype";
-import Filter = Property.Filter;
 //import {Component} from "./components/Component";
 /*import {OnlyEven} from "./components/OnlyEven";
 import {Temperature} from "./components/Temperature";
@@ -18,10 +15,29 @@ function Component({ n }: ComponentProps) {
   return <>{n*n}</>;
 }*/
 
+enum Filter {
+    ALL = "All",
+    EVEN = "Even",
+    ODD = "Odd",
+}
+
+
 function App() {
 
     //return <><Component n ={3}/> <OnlyEven arr ={[1, 2, 3, 4, 5]}/> <Temperature t={-451}/> </>;
     //return <div className="App"><Component/></div>;
+    const [input, setInput] = useState("");
+    const [filter, setFilter] = useState("");
+    const [numbers, setNumbers] = useState([1, 2, 3]);
+
+
+    function submitHandler() {
+        
+    }
+
+    function getFiltered() {
+        return numbers;
+    }
 
     return <div className="App">
             <form onSubmit={submitHandler}>
@@ -38,7 +54,11 @@ function App() {
                     {filterValue}
                 </label>
             )}
-            
+            <br/>
+        {getFiltered().join(", ")}
+        <br/>
+        <button onClick={() => setNumbers([])}>Очистить</button>
+        <button onClick={() => setNumbers(Array.from(Array(10).keys()))}>Заполнить</button>
         </div>;
 }
 
