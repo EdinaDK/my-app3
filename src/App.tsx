@@ -40,6 +40,7 @@ function App() {
         e.preventDefault();
         setInput("");
         setNumbers([...numbers, Number(input)]);
+        setFilter(Filter.ALL);
     }
 
     function getFiltered(){
