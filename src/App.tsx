@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import './App.css';
 import {Property} from "csstype";
+import styles from "./components/Temperature.module.css";
 //import {Component} from "./components/Component";
 /*import {OnlyEven} from "./components/OnlyEven";
 import {Temperature} from "./components/Temperature";
@@ -28,37 +29,56 @@ function App() {
     //return <div className="App"><Component/></div>;
     const [input, setInput] = useState("");
     const [filter, setFilter] = useState("");
-    const [numbers, setNumbers] = useState([1, 2, 3]);
+    const [numbers, setNumbers] = useState<number[]>([1, 2, 3, 4]);
 
+    const generateArray = (length: number, max: number) => (
+        [...new Array(length)]
+            .map(() => Math.round(Math.random() * max))
+    );
 
-    function submitHandler() {
-        
+    const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setInput("");
+        setNumbers([...numbers, Number(input)]);
     }
 
-    function getFiltered() {
-        return numbers;
+    function getFiltered(){
+        switch (filter) {
+            case Filter.ODD:
+                return numbers.filter(it => it % 2 !== 0);
+            case Filter.EVEN:
+                return numbers.filter(it => it % 2 === 0);
+            case Filter.ALL:
+                return numbers;
+            default:
+                return numbers;
+        }
     }
+
 
     return <div className="App">
             <form onSubmit={submitHandler}>
-                <input value={input} onChange={e => setInput(e.target.value)}/>
-                <button type="submit">+</button>
+                <input value={input} className="input" onChange={e => setInput(e.target.value)}/>
+                <button type="submit" className="button1">+</button>
             </form>
+        {getFiltered()?.join(", ")}
+        <br/>
             {Object.values(Filter).map(filterValue =>
                 <label>
                     <input
                         checked={filter === filterValue}
                         type="radio"
                         name="filter"
-                        onChange={() => setFilter(filterValue)}/>
+                        id = "radio"
+                        onChange={() => setFilter(filterValue)}
+                        className = "filters"/>
                     {filterValue}
                 </label>
             )}
-            <br/>
-        {getFiltered().join(", ")}
         <br/>
-        <button onClick={() => setNumbers([])}>Очистить</button>
-        <button onClick={() => setNumbers(Array.from(Array(10).keys()))}>Заполнить</button>
+        <button className="button2" onClick={() => setNumbers([])}>Очистить</button>
+        <button className="button2" onClick={() => setNumbers(Array.from(Array(10).keys()))}>Заполнить</button>
+        <button className="button2" onClick={() => setNumbers(generateArray(10, 100))}>Random</button>
         </div>;
 }
 
