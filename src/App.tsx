@@ -77,9 +77,10 @@ function App() {
                 </label>
             )}
         <br/>
-        <button className="button2" onClick={() => setNumbers([])}>Очистить</button>
-        <button className="button2" onClick={() => setNumbers(Array.from(Array(10).keys()))}>Заполнить</button>
-        <button className="button2" onClick={() => setNumbers(generateArray(10, 100))}>Random</button>
+        <button className="button2" onClick={() => {setNumbers([]);
+            setFilter(Filter.ALL);}}>Очистить</button>
+        <button className="button2" onClick={() => {setNumbers(Array.from(Array(10).keys())); setFilter(Filter.ALL);}}>Заполнить</button>
+        <button className="button2" onClick={() => {setNumbers(generateArray(10, 100)); setFilter(Filter.ALL);}}>Random</button>
         </div>;
 }
 
